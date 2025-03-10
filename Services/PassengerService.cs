@@ -1,16 +1,19 @@
 ﻿
 using Airport_Ticket_Booking.Domain.FlightManagement;
 using Airport_Ticket_Booking.Domain.General;
+using Airport_Ticket_Booking.Domain.Records;
 
 namespace Airport_Ticket_Booking.Services
 {
     public class PassengerService
     {
         private readonly BookingService _bookingService;
+        private FileHandler _fileHandler;
 
-        public PassengerService(BookingService bookingService)
+        public PassengerService(BookingService bookingService, FileHandler fileHandler)
         {
             _bookingService = bookingService;
+            _fileHandler = fileHandler;
         }
         public void BookFlight(Passenger passenger, Flight flight)
         {
@@ -34,9 +37,20 @@ namespace Airport_Ticket_Booking.Services
         {
             _bookingService.ModifyBooking(updateBooking);
         }
-        public List<Flight> SearchAvailableFlights()
+        public List<Flight> SearchAvailableFlights(CriteriaSearch criteria)
         {
-            return null;
+            var allFlights= _fileHandler.ReadFromFile<Flight>();
+            var availableFlights = allFlights.Where(f =>
+                (string.IsNullOrEmpty(criteria.departureCountry) || f.DepartureCountry == criteria.departureCountry) &&
+                (string.IsNullOrEmpty(criteria.destinationCountry) || f.DestinationCountry == criteria.destinationCountry) &&
+                (!criteria.departureDate.HasValue || f.DepartureDate == criteria.departureDate.Value) &&
+                (string.IsNullOrEmpty(criteria.departureAirport) || f.DepartureAirport == criteria.departureAirport) &&
+                (string.IsNullOrEmpty(criteria.arrivalAirport) || f.ArrivalAirport == criteria.arrivalAirport) &&
+                (string.IsNullOrEmpty(criteria.flightClass) || f.Class.ToString() == criteria.flightClass) &&
+                (!criteria.maxPrice.HasValue || f.Price <= criteria.maxPrice.Value)
+            ).ToList();
+
+            return availableFlights;
         }
 
         public List<Booking> ViewPersonalBookings(int passengerId)
