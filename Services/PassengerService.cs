@@ -34,7 +34,16 @@ namespace Airport_Ticket_Booking.Services
         {
             _bookingService.ModifyBooking(updateBooking);
         }
-        
+        public List<Flight> SearchAvailableFlights()
+        {
+            return null;
+        }
+
+        public List<Booking> ViewPersonalBookings(int passengerId)
+        {
+            var PersonalBookings = _bookingService.GetBookingsForPassenger(passengerId);
+            return PersonalBookings;
+        }
         public decimal CalculatePrice(decimal originPrice, FlightClassType flightClass)
         {
             switch (flightClass)
