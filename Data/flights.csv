@@ -1,0 +1,9 @@
+FlightNumber,DepartureCountry,DestinationCountry,DepartureDate,DepartureAirport,ArrivalAirport,Class,Price
+1234,USA,UK,2025-06-15 14:30:00,JFK,LHR,Economy,250.75
+5678,Canada,France,2025-07-10 08:45:00,YYZ,CDG,Business,1500.50
+9101,Germany,Australia,2025-08-20 22:00:00,FRA,SYD,First_Class,3000.00
+1122,India,Japan,2025-05-05 18:30:00,DEL,NRT,Economy,450.00
+3344,USA,Italy,2025-09-18 11:15:00,JFK,FCO,Business,1250.00
+5566,UK,Spain,2025-06-22 16:00:00,LHR,BCN,Economy,200.00
+7788,Australia,South Korea,2025-07-30 09:10:00,SYD,ICN,First_Class,2800.00
+9900,France,USA,2025-10-12 20:40:00,CDG,JFK,Business,800.00
