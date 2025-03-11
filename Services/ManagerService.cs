@@ -1,6 +1,7 @@
 ﻿
 using Airport_Ticket_Booking.Domain.FlightManagement;
 using Airport_Ticket_Booking.Domain.Records;
+using System.ComponentModel.DataAnnotations;
 
 namespace Airport_Ticket_Booking.Services
 {
@@ -35,7 +36,31 @@ namespace Airport_Ticket_Booking.Services
 
             return filterdBookins;
         }
-      
+        public List<ValidationResult> ImportFlightsFromCsv(string filePath)
+        {
+            _fileHandler = new FileHandler(filePath);
+            return ValidateImportedFlightData(_fileHandler);
+
+
         }
+        public List<ValidationResult> ValidateImportedFlightData(FileHandler fileHandler)
+        {
+            var allFlights = _fileHandler.ReadFromFile<Flight>();
+            var validationResults = new List<ValidationResult>();
+
+            foreach (var flight in allFlights)
+            {
+                var context = new ValidationContext(flight, null, null);
+                var results = new List<ValidationResult>();
+                bool isValid = Validator.TryValidateObject(flight, context, results, true);
+
+                if (!isValid)
+                {
+                    validationResults.AddRange(results);
+                }
+            }
+            return validationResults;
+        }
+        
     }
 }
