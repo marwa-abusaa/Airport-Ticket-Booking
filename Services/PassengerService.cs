@@ -40,7 +40,7 @@ namespace Airport_Ticket_Booking.Services
 
         public List<Flight> SearchAvailableFlights(CriteriaSearch criteria)
         {
-            var allFlights= _fileHandler.ReadFromFile<Flight>();
+            var allFlights = GetAllFlights();
             var availableFlights = allFlights.Where(f =>
                 (string.IsNullOrEmpty(criteria.departureCountry) || f.DepartureCountry.Equals(criteria.departureCountry, StringComparison.OrdinalIgnoreCase)) &&
                 (string.IsNullOrEmpty(criteria.destinationCountry) || f.DestinationCountry.Equals(criteria.destinationCountry, StringComparison.OrdinalIgnoreCase) ) &&
@@ -72,6 +72,11 @@ namespace Airport_Ticket_Booking.Services
                     return originPrice * 3.0m;
             }
             return 0;
+        }
+
+        public List<Flight> GetAllFlights()
+        {
+            return _fileHandler.ReadFromFile<Flight>();
         }
 
         private int GenerateBookingId()
