@@ -1,5 +1,4 @@
-﻿
-using Airport_Ticket_Booking.Domain.FlightManagement;
+﻿using Airport_Ticket_Booking.Domain.FlightManagement;
 using Airport_Ticket_Booking.Domain.General;
 using Airport_Ticket_Booking.Domain.Records;
 
@@ -15,6 +14,7 @@ namespace Airport_Ticket_Booking.Services
             _bookingService = bookingService;
             _fileHandler = fileHandler;
         }
+
         public void BookFlight(Passenger passenger, Flight flight)
         {
             var booking = new Booking
@@ -37,16 +37,17 @@ namespace Airport_Ticket_Booking.Services
         {
             _bookingService.ModifyBooking(updateBooking);
         }
+
         public List<Flight> SearchAvailableFlights(CriteriaSearch criteria)
         {
             var allFlights= _fileHandler.ReadFromFile<Flight>();
             var availableFlights = allFlights.Where(f =>
                 (string.IsNullOrEmpty(criteria.departureCountry) || f.DepartureCountry == criteria.departureCountry) &&
                 (string.IsNullOrEmpty(criteria.destinationCountry) || f.DestinationCountry == criteria.destinationCountry) &&
-                (!criteria.departureDate.HasValue || f.DepartureDate == criteria.departureDate.Value) &&
+                (!criteria.departureDate.HasValue || f.DepartureDate.Date.Equals(criteria.departureDate.Value)) &&
                 (string.IsNullOrEmpty(criteria.departureAirport) || f.DepartureAirport == criteria.departureAirport) &&
                 (string.IsNullOrEmpty(criteria.arrivalAirport) || f.ArrivalAirport == criteria.arrivalAirport) &&
-                (string.IsNullOrEmpty(criteria.flightClass) || f.Class.ToString() == criteria.flightClass) &&
+                (string.IsNullOrEmpty(criteria.flightClass) || f.Class.ToString().Equals(criteria.flightClass, StringComparison.OrdinalIgnoreCase) ) &&
                 (!criteria.maxPrice.HasValue || f.Price <= criteria.maxPrice.Value)
             ).ToList();
 
@@ -58,6 +59,7 @@ namespace Airport_Ticket_Booking.Services
             var PersonalBookings = _bookingService.GetBookingsForPassenger(passengerId);
             return PersonalBookings;
         }
+
         public decimal CalculatePrice(decimal originPrice, FlightClassType flightClass)
         {
             switch (flightClass)
