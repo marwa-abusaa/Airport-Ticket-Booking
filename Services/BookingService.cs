@@ -5,7 +5,6 @@ namespace Airport_Ticket_Booking.Services
 {
    public class BookingService
     {
-        private readonly string _filePath = "C:\\Users\\hp\\source\\repos\\Airport Ticket Booking\\Data\\flights.csv";
 
         private FileHandler _fileHandler;
 
