@@ -42,11 +42,11 @@ namespace Airport_Ticket_Booking.Services
         {
             var allFlights= _fileHandler.ReadFromFile<Flight>();
             var availableFlights = allFlights.Where(f =>
-                (string.IsNullOrEmpty(criteria.departureCountry) || f.DepartureCountry == criteria.departureCountry) &&
-                (string.IsNullOrEmpty(criteria.destinationCountry) || f.DestinationCountry == criteria.destinationCountry) &&
+                (string.IsNullOrEmpty(criteria.departureCountry) || f.DepartureCountry.Equals(criteria.departureCountry, StringComparison.OrdinalIgnoreCase)) &&
+                (string.IsNullOrEmpty(criteria.destinationCountry) || f.DestinationCountry.Equals(criteria.destinationCountry, StringComparison.OrdinalIgnoreCase) ) &&
                 (!criteria.departureDate.HasValue || f.DepartureDate.Date.Equals(criteria.departureDate.Value)) &&
-                (string.IsNullOrEmpty(criteria.departureAirport) || f.DepartureAirport == criteria.departureAirport) &&
-                (string.IsNullOrEmpty(criteria.arrivalAirport) || f.ArrivalAirport == criteria.arrivalAirport) &&
+                (string.IsNullOrEmpty(criteria.departureAirport) || f.DepartureAirport.Equals(criteria.departureAirport, StringComparison.OrdinalIgnoreCase)) &&
+                (string.IsNullOrEmpty(criteria.arrivalAirport) || f.ArrivalAirport.Equals(criteria.arrivalAirport, StringComparison.OrdinalIgnoreCase)) &&
                 (string.IsNullOrEmpty(criteria.flightClass) || f.Class.ToString().Equals(criteria.flightClass, StringComparison.OrdinalIgnoreCase) ) &&
                 (!criteria.maxPrice.HasValue || f.Price <= criteria.maxPrice.Value)
             ).ToList();
