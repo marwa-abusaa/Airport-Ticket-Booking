@@ -2,8 +2,8 @@
 namespace Airport_Ticket_Booking.Domain.Records
 {
     public record class CriteriaFilter(
-
-        int? flightNumber=null,
+        int? flightId = null,
+        int? passengerId = null,
         string? departureCountry = null,
         string? destinationCountry = null,
         DateTime? departureDate = null,
