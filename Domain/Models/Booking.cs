@@ -12,7 +12,7 @@ namespace Airport_Ticket_Booking.Domain.FlightManagement
         public decimal Price { get; set; }
         public override string ToString()
         {
-            return $"{BookingId},{FlightId},{Class},{Price}";
+            return $"{BookingId} {FlightId} {Class} {Price}";
         }
     }
 }
