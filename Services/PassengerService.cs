@@ -8,7 +8,7 @@ namespace Airport_Ticket_Booking.Services
     public class PassengerService
     {
         private readonly BookingService _bookingService;
-        public FlightMap _flightMap;
+        private FlightMap _flightMap;
 
 
         public PassengerService(BookingService bookingService, FlightMap flightMap)
@@ -30,14 +30,14 @@ namespace Airport_Ticket_Booking.Services
             _bookingService.BookFlight(booking);
         }
 
-        public void CancelBooking(int bookingId)
+        public bool CancelBooking(int bookingId)
         {
-            _bookingService.CancelBooking(bookingId);
+            return _bookingService.CancelBooking(bookingId);
         }
 
-        public void ModifyBooking(Booking updateBooking)
+        public bool ModifyBooking(Booking updateBooking)
         {
-            _bookingService.ModifyBooking(updateBooking);
+            return _bookingService.ModifyBooking(updateBooking);
         }
 
         public List<Flight> SearchAvailableFlights(CriteriaSearch criteria)
