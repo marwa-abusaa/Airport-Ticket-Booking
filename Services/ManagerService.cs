@@ -2,6 +2,7 @@
 using Airport_Ticket_Booking.Domain.FlightManagement;
 using Airport_Ticket_Booking.Domain.Models;
 using Airport_Ticket_Booking.Domain.Records;
+using Airport_Ticket_Booking.Validation;
 using System.ComponentModel.DataAnnotations;
 
 namespace Airport_Ticket_Booking.Services
@@ -10,6 +11,7 @@ namespace Airport_Ticket_Booking.Services
     {
         private FlightMap _flightMap;
         private BookingMap _bookingMap;
+        private FlightValidator validator = new FlightValidator();
 
         public ManagerService(BookingMap bookingMap, FlightMap flightMap)
         {
@@ -17,56 +19,52 @@ namespace Airport_Ticket_Booking.Services
             _bookingMap = bookingMap;
         }
 
-        public List<Booking> FilterBookings(CriteriaFilter criteria)
+        public List<Booking> FilterBookings(CriteriaFilter filter)
         {
             var allFlights = _flightMap.GetAllFlights();
             var allBookins = _bookingMap.GetAllBookings();
-            var filterdBookins = allBookins.Join(allFlights,
-                booking => booking.FlightId,
-                flight => flight.FlightNumber,               
-                (booking, flight) => new { booking, flight })               
-                .Where(f =>
-                (!criteria.flightNumber.HasValue || f.flight.FlightNumber == criteria.flightNumber.Value) &&
-                (string.IsNullOrEmpty(criteria.departureCountry) || f.flight.DepartureCountry == criteria.departureCountry) &&
-                (string.IsNullOrEmpty(criteria.destinationCountry) || f.flight.DestinationCountry == criteria.destinationCountry) &&
-                (!criteria.departureDate.HasValue || f.flight.DepartureDate == criteria.departureDate.Value) &&
-                (string.IsNullOrEmpty(criteria.departureAirport) || f.flight.DepartureAirport == criteria.departureAirport) &&
-                (string.IsNullOrEmpty(criteria.arrivalAirport) || f.flight.ArrivalAirport == criteria.arrivalAirport) &&
-                (string.IsNullOrEmpty(criteria.flightClass) || f.flight.Class.ToString().Equals(criteria.flightClass, StringComparison.OrdinalIgnoreCase)) &&
-                (!criteria.maxPrice.HasValue || f.flight.Price <= criteria.maxPrice.Value)
-                )                    
-                .Select(b => b.booking)
-                .ToList();
 
-            return filterdBookins;
+            var filteredBookings = allBookins
+                .Join(allFlights,
+                    booking => booking.FlightId,
+                    flight => flight.FlightNumber,
+                    (booking, flight) => new { Booking = booking, Flight = flight }
+                )
+                .Where(x =>
+                    (!filter.flightId.HasValue || x.Flight.FlightNumber == filter.flightId) &&
+                    (!filter.passengerId.HasValue || x.Booking.PassengerId == filter.passengerId ) &&
+                    (string.IsNullOrEmpty(filter.departureCountry) || x.Flight.DepartureCountry.Equals(filter.departureCountry, StringComparison.OrdinalIgnoreCase)) &&
+                    (string.IsNullOrEmpty(filter.destinationCountry) || x.Flight.DestinationCountry.Equals(filter.destinationCountry, StringComparison.OrdinalIgnoreCase)) &&
+                    (!filter.departureDate.HasValue || x.Flight.DepartureDate.Date == filter.departureDate.Value.Date) &&
+                    (string.IsNullOrEmpty(filter.departureAirport) || x.Flight.DepartureAirport.Equals(filter.departureAirport, StringComparison.OrdinalIgnoreCase)) &&
+                    (string.IsNullOrEmpty(filter.arrivalAirport) || x.Flight.ArrivalAirport.Equals(filter.arrivalAirport, StringComparison.OrdinalIgnoreCase)) &&
+                    (string.IsNullOrEmpty(filter.flightClass) || x.Flight.Class.ToString().Equals(filter.flightClass, StringComparison.OrdinalIgnoreCase)) &&
+                    (!filter.maxPrice.HasValue || x.Flight.Price <= filter.maxPrice)
+                )
+                .Select(x => x.Booking);
+
+            return filteredBookings.ToList();
         }
 
         public List<ValidationResult> ImportFlightsFromCsv(string filePath)
         {
-            var fileHandler = new FileHandler();
-            return ValidateImportedFlightData(fileHandler, filePath);
-
-
-        }
-
-        public List<ValidationResult> ValidateImportedFlightData(FileHandler fileHandler, string filePath)
-        {
-            var allFlights = fileHandler.ReadFromFile<Flight>(filePath);
             var validationResults = new List<ValidationResult>();
+            var lines = File.ReadAllLines(filePath).Skip(1); 
 
-            foreach (var flight in allFlights)
+            foreach (var line in lines)
             {
-                var context = new ValidationContext(flight, null, null);
-                var results = new List<ValidationResult>();
-                bool isValid = Validator.TryValidateObject(flight, context, results, true);
+                var flight = validator.ParesdFlight(line, validationResults); 
+                var results = validator.ValidateFlight(flight); 
 
-                if (!isValid)
+                if (results.Any())
                 {
-                    validationResults.AddRange(results);
+                    validationResults.AddRange(results); 
                 }
             }
-            return validationResults;
+
+            return validationResults; 
         }
-        
+
+
     }
 }
