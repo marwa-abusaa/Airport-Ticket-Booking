@@ -1,8 +1,7 @@
 ﻿
 namespace Airport_Ticket_Booking.Domain.Records
 {
-    public record class CriteriaSearch(
-    
+    public record class CriteriaSearch(        
         string? departureCountry = null, 
         string? destinationCountry = null,
         DateTime? departureDate = null,   
