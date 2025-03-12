@@ -4,7 +4,7 @@ BookingId,FlightId,PassengerId,Class,Price
 3,9101,103,First_Class,3000.00
 4,1122,104,Economy,450.00
 5,3344,105,Business,1250.00
-6,5566,106,Economy,200.00
+6,5566,101,Economy,200.00
 7,7788,107,First_Class,2800.00
-48548,9101,1110,First_Class,9000.000
 40716,7788,2505,Economy,8400.000
+48549,7788,1110,Economy,9000.000

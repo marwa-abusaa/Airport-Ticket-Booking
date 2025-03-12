@@ -6,4 +6,4 @@ FlightNumber,DepartureCountry,DestinationCountry,DepartureDate,DepartureAirport,
 3344,USA,Italy,2025-09-18 11:15:00,JFK,FCO,Business,1250.00
 5566,UK,Spain,2025-06-22 16:00:00,LHR,BCN,Economy,200.00
 7788,Australia,South Korea,2025-07-30 09:10:00,SYD,ICN,First_Class,2800.00
-9900,USA,USA,2025-10-12 20:40:00,CDG,JFK,Business,800.00
+9900,USA,France,2025-10-12 20:40:00,CDG,JFK,Business,800.00
