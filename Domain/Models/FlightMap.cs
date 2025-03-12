@@ -1,9 +1,4 @@
 ﻿using Airport_Ticket_Booking.Domain.FlightManagement;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Airport_Ticket_Booking.Domain.Models
 {
@@ -26,6 +21,6 @@ namespace Airport_Ticket_Booking.Domain.Models
         {
             _fileHandler.WriteToFile<Flight>(allFlights, _filePath);
 
-        }
+        }        
     }
 }
