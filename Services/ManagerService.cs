@@ -1,5 +1,6 @@
 ﻿
 using Airport_Ticket_Booking.Domain.FlightManagement;
+using Airport_Ticket_Booking.Domain.Models;
 using Airport_Ticket_Booking.Domain.Records;
 using System.ComponentModel.DataAnnotations;
 
@@ -7,16 +8,19 @@ namespace Airport_Ticket_Booking.Services
 {
     public class ManagerService
     {
-        private FileHandler _fileHandler;
+        private FlightMap _flightMap;
+        private BookingMap _bookingMap;
 
-        public ManagerService(BookingService bookingService, FileHandler fileHandler)
+        public ManagerService(BookingMap bookingMap, FlightMap flightMap)
         {
-            _fileHandler = fileHandler;
+            _flightMap = flightMap;
+            _bookingMap = bookingMap;
         }
+
         public List<Booking> FilterBookings(CriteriaFilter criteria)
         {
-            var allFlights = _fileHandler.ReadFromFile<Flight>();
-            var allBookins = _fileHandler.ReadFromFile<Booking>();
+            var allFlights = _flightMap.GetAllFlights();
+            var allBookins = _bookingMap.GetAllBookings();
             var filterdBookins = allBookins.Join(allFlights,
                 booking => booking.FlightId,
                 flight => flight.FlightNumber,               
@@ -36,16 +40,18 @@ namespace Airport_Ticket_Booking.Services
 
             return filterdBookins;
         }
+
         public List<ValidationResult> ImportFlightsFromCsv(string filePath)
         {
-            _fileHandler = new FileHandler(filePath);
-            return ValidateImportedFlightData(_fileHandler);
+            var fileHandler = new FileHandler();
+            return ValidateImportedFlightData(fileHandler, filePath);
 
 
         }
-        public List<ValidationResult> ValidateImportedFlightData(FileHandler fileHandler)
+
+        public List<ValidationResult> ValidateImportedFlightData(FileHandler fileHandler, string filePath)
         {
-            var allFlights = _fileHandler.ReadFromFile<Flight>();
+            var allFlights = fileHandler.ReadFromFile<Flight>(filePath);
             var validationResults = new List<ValidationResult>();
 
             foreach (var flight in allFlights)

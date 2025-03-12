@@ -1,59 +1,57 @@
 ﻿
 using Airport_Ticket_Booking.Domain.FlightManagement;
+using Airport_Ticket_Booking.Domain.Models;
 
 namespace Airport_Ticket_Booking.Services
 {
    public class BookingService
     {
 
-        private FileHandler _fileHandler;
+        private BookingMap _bookingMap;
 
-        public BookingService(FileHandler fileHandler)
+        public BookingService(BookingMap bookingMap)
         {
-            _fileHandler = fileHandler;
+            _bookingMap = bookingMap;
         }
-        public List<Booking> GetAllBookings()
-        {
-            return _fileHandler.ReadFromFile<Booking>();
-        }
+       
         public void BookFlight(Booking booking)
         {
-            var allBookings = GetAllBookings();
+            var allBookings = _bookingMap.GetAllBookings();
             if (allBookings.Any())
             {
                 allBookings.Add(booking);
-                _fileHandler.WriteToFile<Booking>(allBookings);
+                _bookingMap.SaveBookings(allBookings);
             }
 
         }
         public bool CancelBooking(int bookingId)
         {
-            var allBookings = GetAllBookings();
+            var allBookings = _bookingMap.GetAllBookings();
             var booking = allBookings.FirstOrDefault(b => b.BookingId == bookingId);
             if (booking != null)
             {
                 allBookings.Remove(booking);
-                _fileHandler.WriteToFile<Booking>(allBookings);
+                _bookingMap.SaveBookings(allBookings);
                 return true;
             }
             return false;
         }
         public bool ModifyBooking(Booking updateBooking)
         {
-            var allBookings = GetAllBookings();
+            var allBookings = _bookingMap.GetAllBookings();
             var booking = allBookings.FirstOrDefault(b => b.BookingId == updateBooking.BookingId);
             if (booking != null)
             {
                 allBookings.Remove(booking);
                 allBookings.Add(updateBooking);
-                _fileHandler.WriteToFile<Booking>(allBookings);
+                _bookingMap.SaveBookings(allBookings);
                 return true;
             }
             return false;
         }
         public List<Booking> GetBookingsForPassenger(int passengerId)
         {
-            var allBookings = GetAllBookings();
+            var allBookings = _bookingMap.GetAllBookings();
             var passengerBookings = allBookings.TakeWhile(p => p.PassengerId == passengerId).ToList();
             return passengerBookings;
         }

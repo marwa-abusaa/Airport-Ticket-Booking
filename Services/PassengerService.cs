@@ -1,5 +1,6 @@
 ﻿using Airport_Ticket_Booking.Domain.FlightManagement;
 using Airport_Ticket_Booking.Domain.General;
+using Airport_Ticket_Booking.Domain.Models;
 using Airport_Ticket_Booking.Domain.Records;
 
 namespace Airport_Ticket_Booking.Services
@@ -7,22 +8,23 @@ namespace Airport_Ticket_Booking.Services
     public class PassengerService
     {
         private readonly BookingService _bookingService;
-        private FileHandler _fileHandler;
+        public FlightMap _flightMap;
 
-        public PassengerService(BookingService bookingService, FileHandler fileHandler)
+
+        public PassengerService(BookingService bookingService, FlightMap flightMap)
         {
             _bookingService = bookingService;
-            _fileHandler = fileHandler;
+            _flightMap = flightMap;
         }
 
-        public void BookFlight(Passenger passenger, Flight flight)
+        public void BookFlight(Passenger passenger, Flight flight, FlightClassType classType)
         {
             var booking = new Booking
             {
                 BookingId = GenerateBookingId(),
                 FlightId = flight.FlightNumber,
                 PassengerId = passenger.Id,
-                Class = flight.Class,
+                Class = classType,
                 Price = CalculatePrice(flight.Price, flight.Class)
             };
             _bookingService.BookFlight(booking);
@@ -40,7 +42,7 @@ namespace Airport_Ticket_Booking.Services
 
         public List<Flight> SearchAvailableFlights(CriteriaSearch criteria)
         {
-            var allFlights = GetAllFlights();
+            var allFlights = _flightMap.GetAllFlights();
             var availableFlights = allFlights.Where(f =>
                 (string.IsNullOrEmpty(criteria.departureCountry) || f.DepartureCountry.Equals(criteria.departureCountry, StringComparison.OrdinalIgnoreCase)) &&
                 (string.IsNullOrEmpty(criteria.destinationCountry) || f.DestinationCountry.Equals(criteria.destinationCountry, StringComparison.OrdinalIgnoreCase) ) &&
@@ -72,11 +74,6 @@ namespace Airport_Ticket_Booking.Services
                     return originPrice * 3.0m;
             }
             return 0;
-        }
-
-        public List<Flight> GetAllFlights()
-        {
-            return _fileHandler.ReadFromFile<Flight>();
         }
 
         private int GenerateBookingId()
