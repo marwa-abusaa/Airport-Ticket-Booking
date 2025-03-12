@@ -52,7 +52,7 @@ namespace Airport_Ticket_Booking.Services
         public List<Booking> GetBookingsForPassenger(int passengerId)
         {
             var allBookings = _bookingMap.GetAllBookings();
-            var passengerBookings = allBookings.TakeWhile(p => p.PassengerId == passengerId).ToList();
+            var passengerBookings = allBookings.Where(p => p.PassengerId == passengerId).ToList();
             return passengerBookings;
         }
 
