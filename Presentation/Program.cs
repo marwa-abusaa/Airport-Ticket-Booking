@@ -1,12 +1,22 @@
 ﻿
+using Airport_Ticket_Booking.Domain.FlightManagement;
 using Airport_Ticket_Booking.Domain.General;
+using Airport_Ticket_Booking.Domain.Models;
 using Airport_Ticket_Booking.Domain.Records;
 using Airport_Ticket_Booking.Services;
 using System.Globalization;
 
 public class Program
 {
-    private static readonly string _filePath = "C:\\Users\\hp\\source\\repos\\Airport Ticket Booking\\Data\\flights.csv";
+
+    public static void DisplayFlights(List<Flight> flights)
+    {
+        Console.WriteLine("\nFlightNumber DepartureCountry DestinationCountry DepartureDate DepartureAirport ArrivalAirport Class Price\n");
+        foreach (var f in flights)
+        {
+            Console.WriteLine(f);
+        }
+    }
 
     public static void SearchAvailableFlights(CriteriaSearch criteria, PassengerService passengerService)
     {
@@ -87,18 +97,66 @@ public class Program
         var flights= passengerService.SearchAvailableFlights(criteria);
         if (flights != null)
         {
-            Console.WriteLine("\nFlightNumber DepartureCountry DestinationCountry DepartureDate DepartureAirport ArrivalAirport Class Price\n");
-            foreach(var f in flights)
-            {
-                Console.WriteLine(f);
-            }
+            DisplayFlights(flights);
         }
         else
             Console.WriteLine("No flights found.");
     }
-    public static void BookFlight()
+    public static void BookFlight(PassengerService passengerService, FlightMap flightMap)
     {
+        var allFlights = flightMap.GetAllFlights();
+        if (!allFlights.Any())
+        {
+            Console.WriteLine("No flights available");
+        }
+        else
+        {
+            DisplayFlights(allFlights);
+            int id;
+            while (true)
+            {
+                Console.Write("\nEnter Your Id:");
+                if (int.TryParse(Console.ReadLine(), out id))
+                    break;
+                Console.WriteLine("Invalid input! Please enter a number.");
+            }
+            var passenger = new Passenger { Id = id };
 
+            int flightNmuber;
+            Flight? flight=null;
+            while (flight==null)
+            {
+                Console.Write("Enter Flight Nmumber you want to book:");
+                if (int.TryParse(Console.ReadLine(), out flightNmuber))
+                {
+                    flight = allFlights.FirstOrDefault(f => f.FlightNumber == flightNmuber);
+                    if (flight == null)
+                    {
+                        Console.WriteLine("Flight not found.");
+                        continue;
+                    }                    
+                }
+                if (flight != null)
+                    break;
+                Console.WriteLine("Invalid input! Please enter a number.");
+            }
+
+            FlightClassType flightClass;
+            while (true)
+            {
+                Console.Write("Enter Flight Class (Economy, Business, First_Class): ");
+                var input = Console.ReadLine();
+                if (Enum.TryParse(input, true, out flightClass))
+                {
+                    break;
+                }
+                Console.WriteLine("Invalid flight class.");
+            }
+
+            passengerService.BookFlight(passenger, flight, flightClass);
+            Console.WriteLine("Flight booked successfully");
+
+        }
     }
     public static void ViewPersonalBookings()
     {
@@ -140,9 +198,11 @@ public class Program
 
     private static void Main(string[] args)
     {
-        FileHandler fileHandler = new FileHandler(_filePath);
-        BookingService bookingService = new BookingService(fileHandler);
-        PassengerService passengerService = new PassengerService(bookingService, fileHandler);
+        FileHandler fileHandler = new FileHandler();
+        BookingMap bookingMap = new BookingMap(fileHandler);
+        FlightMap flightMap = new FlightMap(fileHandler);
+        BookingService bookingService = new BookingService(bookingMap);
+        PassengerService passengerService = new PassengerService(bookingService, flightMap);
         CriteriaSearch criteriaSearch = new CriteriaSearch();
 
         Console.WriteLine("Airport Ticket Booking System");
@@ -157,7 +217,7 @@ public class Program
                     SearchAvailableFlights(criteriaSearch, passengerService);
                     break;
                 case "2":
-                    BookFlight();
+                    BookFlight(passengerService, flightMap);
                     break;
                 case "3":
                     ViewPersonalBookings();
