@@ -1,0 +1,3 @@
+FlightNumber,DepartureCountry,DestinationCountry,DepartureDate,DepartureAirport,ArrivalAirport,Class,Price
+1234,USA,UK,2025-06-15 14:30:00,JFK,LHR,Economy,250.75
+25,France,UK,2025-07-10 08:45:00,YYZ,CDG,Business,-10
