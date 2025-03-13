@@ -65,5 +65,4 @@ public class ManagerService
         return validationResults; 
     }
 
-
 }

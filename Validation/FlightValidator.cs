@@ -43,6 +43,7 @@ public class FlightValidator
 
         return constraints;
     }
+
     public List<ValidationResult> ValidateFlight(Flight flight)
     {
         var results = new List<ValidationResult>();
@@ -50,6 +51,7 @@ public class FlightValidator
         Validator.TryValidateObject(flight, context, results, validateAllProperties: true);
         return results;
     }
+
     public Flight ParesdFlight(string line, List<ValidationResult> validationResults)
     {
         var parts = line.Split(',');

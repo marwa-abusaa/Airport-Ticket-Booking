@@ -24,6 +24,7 @@ public class BookingService
         }
 
     }
+
     public bool CancelBooking(int bookingId)
     {
         var allBookings = _bookingMap.GetAllBookings();
@@ -36,6 +37,7 @@ public class BookingService
         }
         return false;
     }
+
     public bool ModifyBooking(Booking updateBooking)
     {
         var allBookings = _bookingMap.GetAllBookings();
@@ -49,6 +51,7 @@ public class BookingService
         }
         return false;
     }
+
     public List<Booking> GetBookingsForPassenger(int passengerId)
     {
         var allBookings = _bookingMap.GetAllBookings();

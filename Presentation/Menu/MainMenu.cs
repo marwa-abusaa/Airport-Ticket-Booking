@@ -10,6 +10,7 @@ public class MainMenu
         Console.WriteLine("1. Passenger");
         Console.WriteLine("2. Manager");
         Console.Write("Please enter your choice (1 or 2): ");
+
         var choice = Console.ReadLine();
 
         switch (choice)
