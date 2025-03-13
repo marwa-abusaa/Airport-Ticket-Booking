@@ -1,8 +1,8 @@
-﻿using Airport_Ticket_Booking.Domain.General;
+﻿using Airport_Ticket_Booking.Domain.Enums;
 using Airport_Ticket_Booking.Validation;
 using System.ComponentModel.DataAnnotations;
 
-namespace Airport_Ticket_Booking.Domain.FlightManagement;
+namespace Airport_Ticket_Booking.Domain.Models;
 
 public class Flight
 {
