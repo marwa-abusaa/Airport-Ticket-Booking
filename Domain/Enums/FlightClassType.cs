@@ -1,10 +1,9 @@
 ﻿
-namespace Airport_Ticket_Booking.Domain.General
+namespace Airport_Ticket_Booking.Domain.General;
+
+public enum FlightClassType
 {
-    public enum FlightClassType
-    {
-        Economy,
-        Business, 
-        First_Class
-    }
+    Economy,
+    Business,
+    First_Class
 }

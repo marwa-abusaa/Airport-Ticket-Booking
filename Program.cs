@@ -1,6 +1,5 @@
 ﻿
-using Airport_Ticket_Booking.Menu;
+using Airport_Ticket_Booking.Presentation.Menu;
 
     var menu = new MainMenu();
     menu.DisplayMenu();
-

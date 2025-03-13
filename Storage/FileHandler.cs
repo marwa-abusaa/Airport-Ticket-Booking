@@ -1,6 +1,8 @@
 ﻿using CsvHelper;
 using System.Globalization;
 
+namespace Airport_Ticket_Booking.Storage;
+
 public class FileHandler
 {
     public List<T> ReadFromFile<T>(string filePath)
@@ -21,7 +23,7 @@ public class FileHandler
         using (var writer = new StreamWriter(filePath, append: false))
         using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
         {
-            csv.WriteRecords(records); 
+            csv.WriteRecords(records);
         }
     }
 }

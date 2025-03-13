@@ -1,7 +1,7 @@
 ﻿
-namespace Airport_Ticket_Booking.Domain.Records
-{
-    public record class CriteriaFilter(
+namespace Airport_Ticket_Booking.Domain.Records;
+
+public record class CriteriaFilter(
         int? flightId = null,
         int? passengerId = null,
         string? departureCountry = null,
@@ -12,4 +12,3 @@ namespace Airport_Ticket_Booking.Domain.Records
         string? flightClass = null,
         decimal? maxPrice = null
     );
-}
