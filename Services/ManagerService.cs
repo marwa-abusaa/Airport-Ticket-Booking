@@ -1,5 +1,4 @@
 ﻿
-using Airport_Ticket_Booking.Domain.FlightManagement;
 using Airport_Ticket_Booking.Domain.Models;
 using Airport_Ticket_Booking.Domain.Records;
 using Airport_Ticket_Booking.Validation;
@@ -9,11 +8,11 @@ namespace Airport_Ticket_Booking.Services;
 
 public class ManagerService
 {
-    private FlightMap _flightMap;
-    private BookingMap _bookingMap;
+    private FlightRepository _flightMap;
+    private BookingRepository _bookingMap;
     private FlightValidator validator = new FlightValidator();
 
-    public ManagerService(BookingMap bookingMap, FlightMap flightMap)
+    public ManagerService(BookingRepository bookingMap, FlightRepository flightMap)
     {
         _flightMap = flightMap;
         _bookingMap = bookingMap;
