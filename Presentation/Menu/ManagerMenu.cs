@@ -1,11 +1,10 @@
-﻿using Airport_Ticket_Booking.Domain.FlightManagement;
-using Airport_Ticket_Booking.Domain.General;
+﻿using Airport_Ticket_Booking.Domain.Enums;
 using Airport_Ticket_Booking.Domain.Models;
 using Airport_Ticket_Booking.Domain.Records;
 using Airport_Ticket_Booking.Services;
 using Airport_Ticket_Booking.Validation;
 using System.Globalization;
-using Airport_Ticket_Booking.Storage;
+using Airport_Ticket_Booking.Infrastructure.Storage;
 
 
 namespace Airport_Ticket_Booking.Presentation.Menu;
@@ -24,8 +23,8 @@ public class ManagerMenu
     public static void ManagerActions()
     {
         FileHandler fileHandler = new FileHandler();
-        BookingMap bookingMap = new BookingMap(fileHandler);
-        FlightMap flightMap = new FlightMap(fileHandler);
+        BookingRepository bookingMap = new BookingRepository(fileHandler);
+        FlightRepository flightMap = new FlightRepository(fileHandler);
         CriteriaFilter criteriaFilter = new CriteriaFilter();
         ManagerService managerService = new ManagerService(bookingMap, flightMap);
         FlightValidator flightValidator = new FlightValidator();
@@ -66,7 +65,7 @@ public class ManagerMenu
             Console.WriteLine(b);
     }
 
-    public static void FilterBookings(ManagerService managerService, CriteriaFilter criteria, FlightMap flightMap)
+    public static void FilterBookings(ManagerService managerService, CriteriaFilter criteria, FlightRepository flightMap)
     {
         Console.Write("For each field, enter a value or press ENTER to skip and leave it empty.\n");
 
