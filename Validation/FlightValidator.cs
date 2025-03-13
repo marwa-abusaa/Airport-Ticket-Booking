@@ -1,5 +1,5 @@
-﻿using Airport_Ticket_Booking.Domain.FlightManagement;
-using Airport_Ticket_Booking.Domain.General;
+﻿using Airport_Ticket_Booking.Domain.Models;
+using Airport_Ticket_Booking.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
