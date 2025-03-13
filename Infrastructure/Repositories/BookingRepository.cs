@@ -1,6 +1,7 @@
-﻿using Airport_Ticket_Booking.Infrastructure.Storage;
+﻿using Airport_Ticket_Booking.Domain.Models;
+using Airport_Ticket_Booking.Infrastructure.Storage;
 
-namespace Airport_Ticket_Booking.Domain.Models;
+namespace Airport_Ticket_Booking.Infrastructure.Repositories;
 
 public class BookingRepository
 {
@@ -19,7 +20,7 @@ public class BookingRepository
 
     public void SaveBookings(List<Booking> allBookings)
     {
-        _fileHandler.WriteToFile<Booking>(allBookings, _filePath);
+        _fileHandler.WriteToFile(allBookings, _filePath);
 
     }
 }
