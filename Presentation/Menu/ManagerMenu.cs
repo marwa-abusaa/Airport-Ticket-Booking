@@ -5,6 +5,7 @@ using Airport_Ticket_Booking.Domain.Records;
 using Airport_Ticket_Booking.Services;
 using Airport_Ticket_Booking.Validation;
 using System.Globalization;
+using Airport_Ticket_Booking.Storage;
 
 
 namespace Airport_Ticket_Booking.Presentation.Menu;
@@ -30,6 +31,7 @@ public class ManagerMenu
         FlightValidator flightValidator = new FlightValidator();
 
         Console.WriteLine("Welcome Manager! What would you like to do?");
+
         while (true)
         {
             ManagersMenu();
@@ -53,7 +55,6 @@ public class ManagerMenu
                         break;
                     }
 
-
             }
         }
     }
@@ -64,6 +65,7 @@ public class ManagerMenu
         foreach (var b in bookings)
             Console.WriteLine(b);
     }
+
     public static void FilterBookings(ManagerService managerService, CriteriaFilter criteria, FlightMap flightMap)
     {
         Console.Write("For each field, enter a value or press ENTER to skip and leave it empty.\n");

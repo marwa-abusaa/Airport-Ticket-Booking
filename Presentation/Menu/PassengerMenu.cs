@@ -4,6 +4,7 @@ using Airport_Ticket_Booking.Domain.Models;
 using Airport_Ticket_Booking.Domain.Records;
 using Airport_Ticket_Booking.Services;
 using System.Globalization;
+using Airport_Ticket_Booking.Storage;
 
 namespace Airport_Ticket_Booking.Presentation.Menu;
 
@@ -32,6 +33,7 @@ public class PassengerMenu
         CriteriaSearch criteriaSearch = new CriteriaSearch();
 
         Console.WriteLine("Welcome! What would you like to do?");
+
         while (true)
         {
             PassengersMenu();
@@ -67,6 +69,7 @@ public class PassengerMenu
             }
         }
     }
+
     public static void Display<T>(List<T> list)
     {
         if (typeof(T) == typeof(Flight))
@@ -310,8 +313,6 @@ public class PassengerMenu
                 break;
             Console.WriteLine("Invalid input! Please enter a number.");
         }
-
-
 
         if (passengerService.CancelBooking(bookingId))
             Console.WriteLine("Booking caneled successfully.");
