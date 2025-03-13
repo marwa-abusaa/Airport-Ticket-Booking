@@ -1,5 +1,5 @@
 ﻿
-namespace Airport_Ticket_Booking.Domain.FlightManagement;
+namespace Airport_Ticket_Booking.Domain.Models;
 
 public class Passenger
 {
