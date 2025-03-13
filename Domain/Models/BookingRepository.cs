@@ -5,7 +5,7 @@ namespace Airport_Ticket_Booking.Domain.Models;
 public class BookingRepository
 {
     private FileHandler _fileHandler;
-    private static readonly string _filePath = "C:\\Users\\hp\\source\\repos\\Airport Ticket Booking\\Data\\bookings.csv";
+    private static readonly string _filePath = "C:\\Users\\hp\\source\\repos\\Airport Ticket Booking\\Infrastructure\\Data\\bookings.csv";
 
     public BookingRepository(FileHandler fileHandler)
     {
