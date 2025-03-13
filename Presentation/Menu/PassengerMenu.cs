@@ -31,7 +31,7 @@ public class PassengerMenu
         PassengerService passengerService = new PassengerService(bookingService, flightMap);
         CriteriaSearch criteriaSearch = new CriteriaSearch();
 
-        Console.WriteLine("Welcome! What would you like to do?");
+        Console.WriteLine("\nWelcome! What would you like to do?");
 
         while (true)
         {
@@ -121,7 +121,7 @@ public class PassengerMenu
         string? Class;
         while (true)
         {
-            Console.Write("Enter Flight Class (Economy, Business, First_Class): ");
+            Console.Write("Enter Flight Class (Economy, Business, FirstClass): ");
             Class = Console.ReadLine();
             if (string.IsNullOrEmpty(Class) || Enum.IsDefined(typeof(FlightClassType), Class))
                 break;
@@ -184,7 +184,29 @@ public class PassengerMenu
                     break;
                 Console.WriteLine("Invalid input! Please enter a number.");
             }
-            var passenger = new Passenger { Id = id };
+
+            var name = string.Empty;
+            while (true)
+            {
+                Console.Write("Enter your name: ");
+                name = Console.ReadLine();
+                if (name != string.Empty)
+                    break;
+                Console.WriteLine("Please enter your name.");
+            }
+
+            var email = string.Empty;
+
+            while (true)
+            {
+                Console.Write("Enter your email: ");
+                email = Console.ReadLine();
+                if (email != string.Empty)
+                    break;
+                Console.WriteLine("Please enter your email.");
+            }
+
+            var passenger = new Passenger { Id = id};
 
             int flightNmuber;
             Flight? flight = null;
@@ -208,7 +230,7 @@ public class PassengerMenu
             FlightClassType flightClass;
             while (true)
             {
-                Console.Write("Enter Flight Class (Economy, Business, First_Class): ");
+                Console.Write("Enter Flight Class (Economy, Business, FirstClass): ");
                 var input = Console.ReadLine();
                 if (Enum.TryParse(input, true, out flightClass))
                 {
@@ -272,7 +294,7 @@ public class PassengerMenu
         FlightClassType newflightClass;
         while (true)
         {
-            Console.Write("Enter new Flight Class (Economy, Business, First_Class): ");
+            Console.Write("Enter new Flight Class (Economy, Business, FirstClass): ");
             var input = Console.ReadLine();
             if (Enum.TryParse(input, true, out newflightClass))
             {
