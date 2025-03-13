@@ -1,15 +1,13 @@
-﻿
-using Airport_Ticket_Booking.Domain.FlightManagement;
-using Airport_Ticket_Booking.Domain.Models;
+﻿using Airport_Ticket_Booking.Domain.Models;
 
 namespace Airport_Ticket_Booking.Services;
 
 public class BookingService
 {
 
-    private BookingMap _bookingMap;
+    private BookingRepository _bookingMap;
 
-    public BookingService(BookingMap bookingMap)
+    public BookingService(BookingRepository bookingMap)
     {
         _bookingMap = bookingMap;
     }
