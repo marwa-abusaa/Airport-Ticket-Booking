@@ -1,14 +1,13 @@
-﻿using Airport_Ticket_Booking.Domain.FlightManagement;
-using Airport_Ticket_Booking.Storage;
+﻿using Airport_Ticket_Booking.Infrastructure.Storage;
 
 namespace Airport_Ticket_Booking.Domain.Models;
 
-public class BookingMap
+public class BookingRepository
 {
     private FileHandler _fileHandler;
     private static readonly string _filePath = "C:\\Users\\hp\\source\\repos\\Airport Ticket Booking\\Data\\bookings.csv";
 
-    public BookingMap(FileHandler fileHandler)
+    public BookingRepository(FileHandler fileHandler)
     {
         _fileHandler = fileHandler;
     }
