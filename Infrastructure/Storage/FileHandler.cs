@@ -1,7 +1,7 @@
 ﻿using CsvHelper;
 using System.Globalization;
 
-namespace Airport_Ticket_Booking.Storage;
+namespace Airport_Ticket_Booking.Infrastructure.Storage;
 
 public class FileHandler
 {
