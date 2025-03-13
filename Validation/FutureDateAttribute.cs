@@ -1,5 +1,6 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Airport_Ticket_Booking.Validation;
 
@@ -9,7 +10,15 @@ public class FutureDateAttribute : ValidationAttribute
     {
         if (value is DateTime date)
         {
-            return date > DateTime.Now;
+            switch (date.Kind)
+            {
+                case DateTimeKind.Utc:
+                    return date > DateTime.UtcNow;
+                case DateTimeKind.Local:
+                    return date.ToUniversalTime() > DateTime.UtcNow;
+                default:
+                    return DateTime.SpecifyKind(date, DateTimeKind.Utc) > DateTime.UtcNow;
+            } 
         }
         return false;
     }
