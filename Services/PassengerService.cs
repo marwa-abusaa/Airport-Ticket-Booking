@@ -1,6 +1,5 @@
-﻿using Airport_Ticket_Booking.Domain.FlightManagement;
-using Airport_Ticket_Booking.Domain.General;
-using Airport_Ticket_Booking.Domain.Models;
+﻿using Airport_Ticket_Booking.Domain.Models;
+using Airport_Ticket_Booking.Domain.Enums;
 using Airport_Ticket_Booking.Domain.Records;
 
 namespace Airport_Ticket_Booking.Services;
@@ -8,10 +7,10 @@ namespace Airport_Ticket_Booking.Services;
 public class PassengerService
 {
     private readonly BookingService _bookingService;
-    private FlightMap _flightMap;
+    private FlightRepository _flightMap;
 
 
-    public PassengerService(BookingService bookingService, FlightMap flightMap)
+    public PassengerService(BookingService bookingService, FlightRepository flightMap)
     {
         _bookingService = bookingService;
         _flightMap = flightMap;
@@ -70,7 +69,7 @@ public class PassengerService
                 return originPrice;
             case FlightClassType.Business:
                 return originPrice * 2.0m;
-            case FlightClassType.First_Class:
+            case FlightClassType.FirstClass:
                 return originPrice * 3.0m;
         }
         return 0;
