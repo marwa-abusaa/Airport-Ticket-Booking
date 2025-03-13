@@ -1,10 +1,9 @@
-﻿using Airport_Ticket_Booking.Domain.FlightManagement;
-using Airport_Ticket_Booking.Domain.General;
+﻿using Airport_Ticket_Booking.Domain.Enums;
 using Airport_Ticket_Booking.Domain.Models;
 using Airport_Ticket_Booking.Domain.Records;
 using Airport_Ticket_Booking.Services;
 using System.Globalization;
-using Airport_Ticket_Booking.Storage;
+using Airport_Ticket_Booking.Infrastructure.Storage;
 
 namespace Airport_Ticket_Booking.Presentation.Menu;
 
@@ -26,8 +25,8 @@ public class PassengerMenu
     {
 
         FileHandler fileHandler = new FileHandler();
-        BookingMap bookingMap = new BookingMap(fileHandler);
-        FlightMap flightMap = new FlightMap(fileHandler);
+        BookingRepository bookingMap = new BookingRepository(fileHandler);
+        FlightRepository flightMap = new FlightRepository(fileHandler);
         BookingService bookingService = new BookingService(bookingMap);
         PassengerService passengerService = new PassengerService(bookingService, flightMap);
         CriteriaSearch criteriaSearch = new CriteriaSearch();
@@ -167,7 +166,7 @@ public class PassengerMenu
             Console.WriteLine("No flights found.");
     }
 
-    public static void BookFlight(PassengerService passengerService, FlightMap flightMap)
+    public static void BookFlight(PassengerService passengerService, FlightRepository flightMap)
     {
         var allFlights = flightMap.GetAllFlights();
         if (!allFlights.Any())
@@ -318,7 +317,7 @@ public class PassengerMenu
             Console.WriteLine("Booking caneled successfully.");
     }
 
-    public static void ViewAllAvailableFlights(FlightMap flightMap)
+    public static void ViewAllAvailableFlights(FlightRepository flightMap)
     {
         var allFlights = flightMap.GetAllFlights();
         if (allFlights.Any())
