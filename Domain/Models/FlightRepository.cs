@@ -12,14 +12,14 @@ public class FlightRepository
         _fileHandler = fileHandler;
     }
 
-    public List<FlightRepository> GetAllFlights()
+    public List<Flight> GetAllFlights()
     {
-        return _fileHandler.ReadFromFile<FlightRepository>(_filePath);
+        return _fileHandler.ReadFromFile<Flight>(_filePath);
     }
 
-    public void SaveFlights(List<FlightRepository> allFlights)
+    public void SaveFlights(List<Flight> allFlights)
     {
-        _fileHandler.WriteToFile<FlightRepository>(allFlights, _filePath);
+        _fileHandler.WriteToFile<Flight>(allFlights, _filePath);
 
     }
 }
