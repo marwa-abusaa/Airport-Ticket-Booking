@@ -1,5 +1,5 @@
 ﻿
-namespace Airport_Ticket_Booking.Domain.General;
+namespace Airport_Ticket_Booking.Domain.Enums;
 
 public enum FlightClassType
 {
