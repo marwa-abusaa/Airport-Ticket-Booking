@@ -1,17 +1,17 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 
-namespace Airport_Ticket_Booking.Validation
+namespace Airport_Ticket_Booking.Validation;
+
+public class FutureDateAttribute : ValidationAttribute
 {
-    public class FutureDateAttribute : ValidationAttribute
+    public override bool IsValid(object? value)
     {
-        public override bool IsValid(object value)
+        if (value is DateTime date)
         {
-            if (value is DateTime date)
-            {
-                return date > DateTime.Now;
-            }
-            return false;
+            return date > DateTime.Now;
         }
+        return false;
     }
 }
+
