@@ -9,7 +9,6 @@ public class PassengerService
     private readonly BookingService _bookingService;
     private FlightRepository _flightMap;
 
-
     public PassengerService(BookingService bookingService, FlightRepository flightMap)
     {
         _bookingService = bookingService;
@@ -79,4 +78,5 @@ public class PassengerService
     {
         return new Random().Next(1, 99999);
     }
+
 }

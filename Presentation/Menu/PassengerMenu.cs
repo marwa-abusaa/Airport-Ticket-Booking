@@ -26,8 +26,9 @@ public class PassengerMenu
 
         FileHandler fileHandler = new FileHandler();
         BookingRepository bookingMap = new BookingRepository(fileHandler);
+        PassengerRepository passengerRepository = new PassengerRepository(fileHandler);
         FlightRepository flightMap = new FlightRepository(fileHandler);
-        BookingService bookingService = new BookingService(bookingMap);
+        BookingService bookingService = new BookingService(bookingMap, passengerRepository);
         PassengerService passengerService = new PassengerService(bookingService, flightMap);
         CriteriaSearch criteriaSearch = new CriteriaSearch();
 
@@ -43,7 +44,7 @@ public class PassengerMenu
                     SearchAvailableFlights(criteriaSearch, passengerService);
                     break;
                 case "2":
-                    BookFlight(passengerService, flightMap);
+                    BookFlight(passengerService, flightMap, bookingService);
                     break;
                 case "3":
                     ViewPersonalBookings(passengerService);
@@ -166,7 +167,7 @@ public class PassengerMenu
             Console.WriteLine("No flights found.");
     }
 
-    public static void BookFlight(PassengerService passengerService, FlightRepository flightMap)
+    public static void BookFlight(PassengerService passengerService, FlightRepository flightMap, BookingService bookingService)
     {
         var allFlights = flightMap.GetAllFlights();
         if (!allFlights.Any())
@@ -206,7 +207,7 @@ public class PassengerMenu
                 Console.WriteLine("Please enter your email.");
             }
 
-            var passenger = new Passenger { Id = id};
+            var passenger = new Passenger { Id = id, Name = name, Email = email };
 
             int flightNmuber;
             Flight? flight = null;
@@ -242,6 +243,9 @@ public class PassengerMenu
             passengerService.BookFlight(passenger, flight, flightClass);
             Console.WriteLine("Flight booked successfully");
 
+            if (bookingService.AddPassenger(passenger)) {
+                Console.WriteLine("Your info is saved successfully");
+            }
         }
     }
 
