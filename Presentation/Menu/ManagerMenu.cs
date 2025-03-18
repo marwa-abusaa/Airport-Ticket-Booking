@@ -1,6 +1,5 @@
 ﻿using Airport_Ticket_Booking.Domain.Enums;
 using Airport_Ticket_Booking.Domain.Models;
-using Airport_Ticket_Booking.Domain.Records;
 using Airport_Ticket_Booking.Services;
 using Airport_Ticket_Booking.Validation;
 using System.Globalization;
