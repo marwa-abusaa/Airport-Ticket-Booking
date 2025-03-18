@@ -1,7 +1,6 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Airport_Ticket_Booking.Validation;
+namespace Airport_Ticket_Booking.Domain.Validation;
 
 public class FutureDateAttribute : ValidationAttribute
 {

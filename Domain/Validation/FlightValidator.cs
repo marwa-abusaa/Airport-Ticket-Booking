@@ -3,8 +3,7 @@ using Airport_Ticket_Booking.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
-
-namespace Airport_Ticket_Booking.Validation;
+namespace Airport_Ticket_Booking.Domain.Validation;
 
 public class FlightValidator
 {
