@@ -1,7 +1,7 @@
 ﻿
 using Airport_Ticket_Booking.Domain.Models;
+using Airport_Ticket_Booking.Domain.Validation;
 using Airport_Ticket_Booking.Infrastructure.Repositories;
-using Airport_Ticket_Booking.Validation;
 using System.ComponentModel.DataAnnotations;
 
 namespace Airport_Ticket_Booking.Services;
