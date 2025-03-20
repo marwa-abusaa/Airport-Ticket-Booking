@@ -1,2 +1,5 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿
+using Airport_Ticket_Booking.Presentation.Menu;
+
+    var menu = new MainMenu();
+    menu.DisplayMenu();
